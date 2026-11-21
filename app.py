@@ -43,6 +43,39 @@ import storage  # noqa: E402
 import tema  # noqa: E402
 from sqlalchemy.exc import SQLAlchemyError  # noqa: E402
 
+# ------------------------------------------------------------------
+# Paksa tema TERANG dari kode.
+# Bila .streamlit/config.toml tidak ikut ter-upload (folder berawalan titik sering
+# terlewat) atau server belum di-restart, Streamlit memakai tema bawaan yang mengikuti
+# mode gelap perangkat sehingga tabel, kolom isian, dan pilihan tampil hitam.
+# Opsi tema di bawah menyamai config.toml; bila sudah sama, blok ini tidak melakukan apa pun.
+# ------------------------------------------------------------------
+def _paksa_tema_terang() -> None:
+    pilihan = {
+        "theme.base": "light",
+        "theme.primaryColor": "#1b8fe8",
+        "theme.backgroundColor": "#e8f7ff",
+        "theme.secondaryBackgroundColor": "#d4efff",
+        "theme.textColor": "#06284a",
+    }
+    try:
+        sudah = all(st.get_option(k) == v for k, v in pilihan.items())
+    except Exception:
+        sudah = False
+    if sudah:
+        return
+    for kunci, nilai in pilihan.items():
+        try:
+            st._config.set_option(kunci, nilai)
+        except Exception:
+            pass
+    if not st.session_state.get("_tema_terang_diset"):
+        st.session_state["_tema_terang_diset"] = True
+        st.rerun()  # jalankan ulang sekali agar browser menerima tema baru
+
+
+_paksa_tema_terang()
+
 st.set_page_config(
     page_title="Sistem Analisis Disparitas Pendapatan Daerah",
     page_icon="📊",

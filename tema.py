@@ -348,14 +348,54 @@ button[data-baseweb="tab"][aria-selected="true"] {
 /* ================= PILIHAN, SCROLLBAR ================= */
 [data-baseweb="checkbox"] span, [data-baseweb="radio"] > div:first-child { box-shadow: 0 0 8px rgba(47, 212, 255, .9); }
 [data-testid="stSpinner"] i, [data-testid="stSpinner"] svg { filter: drop-shadow(0 0 6px var(--a-aqua)); }
-::-webkit-scrollbar { width: 14px; height: 14px; }
-::-webkit-scrollbar-track { background: rgba(255,255,255,.5); border-radius: 8px; }
+/* Scrollbar tebal dan jelas. 'auto' membatalkan scrollbar-color/width bawaan Streamlit
+   yang akan membuat Chrome mengabaikan gaya webkit di bawah. */
+* { scrollbar-width: auto !important; scrollbar-color: auto !important; }
+::-webkit-scrollbar { width: 20px; height: 20px; }
+::-webkit-scrollbar-track {
+    background: linear-gradient(90deg, rgba(0, 70, 150, .35), rgba(255, 255, 255, .55) 45%, rgba(0, 70, 150, .20));
+    border-left: 1px solid rgba(255,255,255,.9);
+    border-radius: 12px;
+    box-shadow: inset 0 0 8px rgba(0, 60, 140, .45);
+}
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, #e4f7ff, #6fcfff 50%, #2f9fee);
-    border: 1px solid #1b7fd0; border-radius: 8px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.95);
+    background:
+        linear-gradient(90deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,.15) 45%, rgba(255,255,255,0) 46%),
+        linear-gradient(90deg, #5fd3ff, #1b8fe8 50%, #0a5bd3);
+    border: 2px solid #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0, 90, 190, .85), inset 0 1px 0 #fff;
+    min-height: 48px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background:
+        linear-gradient(90deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,.2) 45%, rgba(255,255,255,0) 46%),
+        linear-gradient(90deg, #8fe6ff, #35b0ff 50%, #1b7fe8);
+    box-shadow: 0 0 14px rgba(47, 212, 255, 1), inset 0 1px 0 #fff;
+}
+::-webkit-scrollbar-corner { background: transparent; }
+@supports (-moz-appearance: none) {
+    * { scrollbar-color: #1b8fe8 rgba(255,255,255,.6) !important; scrollbar-width: auto !important; }
 }
 ::selection { background: rgba(27, 143, 232, .45); color: #031a33; }
+
+
+/* ---- Pengaman tambahan agar tidak ada elemen hitam (apa pun tema dasarnya) ---- */
+[role="tab"] { font-weight: 700; color: var(--a-pudar) !important; }
+[role="tab"][aria-selected="true"] { color: var(--a-biru-tua) !important; text-shadow: 0 1px 0 #fff, 0 0 10px rgba(47,212,255,.8); }
+[data-baseweb="tab-highlight"], [data-baseweb="tab-border"] { background: linear-gradient(90deg, var(--a-aqua), var(--a-biru), var(--a-hijau)) !important; height: 3px !important; border-radius: 3px; }
+[data-testid="stFileUploaderFile"], [data-testid="stFileChip"] {
+    background: linear-gradient(180deg, #ffffff, #d6f3ff) !important;
+    border: 1px solid #5fb6ee !important; border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 80, 170, .25);
+}
+[data-testid="stFileUploaderFile"] *, [data-testid="stFileChip"] * { color: var(--a-navy) !important; }
+[data-testid="stExpander"] details, [data-testid="stExpander"] summary { background: transparent !important; border-color: transparent !important; }
+[data-baseweb="popover"] [data-baseweb="menu"], [data-baseweb="popover"] ul {
+    background: #f4fbff !important; border: 1px solid #5fb6ee; border-radius: 12px;
+}
+[data-baseweb="popover"] li { background: transparent !important; color: var(--a-navy) !important; }
+[data-baseweb="popover"] li:hover, [data-baseweb="popover"] li[aria-selected="true"] { background: #cfeeff !important; }
 
 @media (max-width: 640px) {
     .block-container { margin-top: .5rem; width: calc(100% - 1rem) !important; border-radius: 18px; }
