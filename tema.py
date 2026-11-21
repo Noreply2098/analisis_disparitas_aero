@@ -318,13 +318,31 @@ button[data-baseweb="tab"][aria-selected="true"] {
 [data-testid="stCode"] { border: 1px solid #5fb6ee; box-shadow: inset 0 1px 4px rgba(0,90,170,.15); }
 
 /* ================= NOTIFIKASI ================= */
+/* lapisan dalam bawaan Streamlit bisa bergelap: paksa transparan, warna diatur di lapisan luar */
+[data-testid="stAlert"] > div, [data-testid="stAlertContainer"], [data-baseweb="notification"],
+[data-testid="stAlert"] [data-testid^="stAlertContent"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
 [data-testid="stAlert"] {
-    background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(214,242,255,.8));
+    background: linear-gradient(180deg, rgba(255,255,255,.97), rgba(214,242,255,.88)) !important;
     border: 2px solid #fff;
+    border-left: 8px solid #1b8fe8;
     border-radius: 16px;
     box-shadow: var(--a-bayang), inset 0 2px 0 #fff;
 }
-[data-testid="stAlert"] * { color: var(--a-navy) !important; }
+[data-testid="stAlert"]:has([data-testid="stAlertContentSuccess"]) {
+    background: linear-gradient(180deg, #fbfffb, #c9f5cf) !important; border-left-color: #2fbf4a;
+}
+[data-testid="stAlert"]:has([data-testid="stAlertContentWarning"]) {
+    background: linear-gradient(180deg, #fffef5, #ffecaa) !important; border-left-color: #ffb300;
+}
+[data-testid="stAlert"]:has([data-testid="stAlertContentError"]) {
+    background: linear-gradient(180deg, #fffafa, #ffd0d0) !important; border-left-color: #e53935;
+}
+[data-testid="stAlert"] * { color: var(--a-navy) !important; text-shadow: none !important; }
 [data-testid="stToast"] { background: rgba(255,255,255,.95); border: 2px solid #fff; border-radius: 16px; box-shadow: 0 8px 28px rgba(0, 80, 170, .5); }
 
 /* ================= PILIHAN, SCROLLBAR ================= */
